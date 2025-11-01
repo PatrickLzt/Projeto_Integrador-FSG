@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Finalize sua compra">
+    <title>Sweet Cupcakes - Checkout</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-content">
+                    <h1 class="logo">🧁 Sweet Cupcakes</h1>
+                    <ul class="nav-menu">
+                        <li><a href="index.html" class="nav-link">Início</a></li>
+                        <li><a href="cardapio.html" class="nav-link">Cardápio</a></li>
+                        <li><a href="carrinho.html" class="nav-link">Carrinho <span id="cart-count"
+                                    class="cart-badge">0</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Checkout Section -->
+    <section class="checkout-section">
+        <div class="container">
+            <h2 class="section-title">Finalizar Compra</h2>
+
+            <div class="checkout-content">
+                <!-- Checkout Form -->
+                <div class="checkout-form">
+                    <form id="checkout-form">
+                        <!-- Personal Information -->
+                        <div class="form-section">
+                            <h3 class="form-section-title">Informações Pessoais</h3>
+
+                            <div class="form-group">
+                                <label for="name" class="form-label">Nome Completo *</label>
+                                <input type="text" id="name" name="name" class="input-field" required>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email" class="form-label">E-mail *</label>
+                                    <input type="email" id="email" name="email" class="input-field" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phone" class="form-label">Telefone *</label>
+                                    <input type="tel" id="phone" name="phone" class="input-field"
+                                        placeholder="(00) 00000-0000" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Delivery Option -->
+                        <div class="form-section">
+                            <h3 class="form-section-title">Opção de Recebimento</h3>
+
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="delivery-option" value="delivery" checked>
+                                    <span>🚚 Entrega</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="delivery-option" value="pickup">
+                                    <span>🏪 Retirada na Loja</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Delivery Address -->
+                        <div class="form-section" id="delivery-address-section">
+                            <h3 class="form-section-title">Endereço de Entrega</h3>
+
+                            <div class="form-group">
+                                <label for="cep" class="form-label">CEP *</label>
+                                <input type="text" id="cep" name="cep" class="input-field" placeholder="00000-000">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="street" class="form-label">Rua *</label>
+                                <input type="text" id="street" name="street" class="input-field">
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="number" class="form-label">Número *</label>
+                                    <input type="text" id="number" name="number" class="input-field">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="complement" class="form-label">Complemento</label>
+                                    <input type="text" id="complement" name="complement" class="input-field">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="neighborhood" class="form-label">Bairro *</label>
+                                    <input type="text" id="neighborhood" name="neighborhood" class="input-field">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="city" class="form-label">Cidade *</label>
+                                    <input type="text" id="city" name="city" class="input-field">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method -->
+                        <div class="form-section">
+                            <h3 class="form-section-title">Forma de Pagamento</h3>
+
+                            <div class="payment-options">
+                                <label class="payment-option">
+                                    <input type="radio" name="payment-method" value="pix" checked>
+                                    <div class="payment-card">
+                                        <span class="payment-icon">💳</span>
+                                        <span>PIX</span>
+                                    </div>
+                                </label>
+
+                                <label class="payment-option">
+                                    <input type="radio" name="payment-method" value="credit-card">
+                                    <div class="payment-card">
+                                        <span class="payment-icon">💳</span>
+                                        <span>Cartão de Crédito</span>
+                                    </div>
+                                </label>
+
+                                <label class="payment-option">
+                                    <input type="radio" name="payment-method" value="debit-card">
+                                    <div class="payment-card">
+                                        <span class="payment-icon">💳</span>
+                                        <span>Cartão de Débito</span>
+                                    </div>
+                                </label>
+
+                                <label class="payment-option">
+                                    <input type="radio" name="payment-method" value="cash">
+                                    <div class="payment-card">
+                                        <span class="payment-icon">💵</span>
+                                        <span>Dinheiro</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Cash Change Section -->
+                        <div class="form-section" id="cash-change-section" style="display: none;">
+                            <div class="form-group">
+                                <label for="cash-amount" class="form-label">Troco para quanto?</label>
+                                <input type="number" id="cash-amount" name="cash-amount" class="input-field"
+                                    placeholder="R$ 0,00" step="0.01">
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary btn-large">Confirmar Pedido</button>
+                    </form>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <h3>Resumo do Pedido</h3>
+
+                    <div class="order-items" id="order-items">
+                        <!-- Items serão carregados via JavaScript -->
+                    </div>
+
+                    <div class="summary-totals">
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span id="checkout-subtotal">R$ 0,00</span>
+                        </div>
+
+                        <div class="summary-row" id="checkout-discount-row" style="display: none;">
+                            <span>Desconto:</span>
+                            <span id="checkout-discount" class="discount-text">- R$ 0,00</span>
+                        </div>
+
+                        <div class="summary-row" id="delivery-fee-row">
+                            <span>Taxa de Entrega:</span>
+                            <span id="delivery-fee">R$ 8,00</span>
+                        </div>
+
+                        <div class="summary-row total-row">
+                            <span>Total:</span>
+                            <span id="checkout-total" class="total-price">R$ 0,00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Sweet Cupcakes. Todos os direitos reservados.</p>
+            <p>Contato: (51) 99999-9999 | contato@sweetcupcakes.com.br</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Confira nosso cardápio completo de cupcakes">
+    <title>Sweet Cupcakes - Cardápio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-content">
+                    <h1 class="logo">🧁 Sweet Cupcakes</h1>
+                    <ul class="nav-menu">
+                        <li><a href="index.html" class="nav-link">Início</a></li>
+                        <li><a href="cardapio.html" class="nav-link active">Cardápio</a></li>
+                        <li><a href="carrinho.html" class="nav-link">Carrinho <span id="cart-count"
+                                    class="cart-badge">0</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Menu Section -->
+    <section class="menu-section">
+        <div class="container">
+            <h2 class="section-title">Nosso Cardápio</h2>
+            <p class="section-subtitle">Escolha seus sabores favoritos</p>
+
+            <!-- Filter Options -->
+            <div class="filter-container">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="chocolate">Chocolate</button>
+                <button class="filter-btn" data-filter="frutas">Frutas</button>
+                <button class="filter-btn" data-filter="especiais">Especiais</button>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid" id="products-grid">
+                <!-- Produtos serão carregados via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Sweet Cupcakes. Todos os direitos reservados.</p>
+            <p>Contato: (51) 99999-9999 | contato@sweetcupcakes.com.br</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

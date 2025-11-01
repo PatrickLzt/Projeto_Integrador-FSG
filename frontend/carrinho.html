@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Seu carrinho de compras">
+    <title>Sweet Cupcakes - Carrinho</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-content">
+                    <h1 class="logo">🧁 Sweet Cupcakes</h1>
+                    <ul class="nav-menu">
+                        <li><a href="index.html" class="nav-link">Início</a></li>
+                        <li><a href="cardapio.html" class="nav-link">Cardápio</a></li>
+                        <li><a href="carrinho.html" class="nav-link active">Carrinho <span id="cart-count"
+                                    class="cart-badge">0</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Cart Section -->
+    <section class="cart-section">
+        <div class="container">
+            <h2 class="section-title">Seu Carrinho</h2>
+
+            <div class="cart-content">
+                <!-- Cart Items -->
+                <div class="cart-items" id="cart-items">
+                    <!-- Items serão carregados via JavaScript -->
+                </div>
+
+                <!-- Cart Empty Message -->
+                <div class="cart-empty" id="cart-empty" style="display: none;">
+                    <p>🛒 Seu carrinho está vazio</p>
+                    <a href="cardapio.html" class="btn btn-primary">Ver Cardápio</a>
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="cart-summary" id="cart-summary">
+                    <h3>Resumo do Pedido</h3>
+
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">R$ 0,00</span>
+                    </div>
+
+                    <div class="coupon-section">
+                        <input type="text" id="coupon-input" placeholder="Código do cupom" class="input-field">
+                        <button id="apply-coupon-btn" class="btn btn-secondary">Aplicar</button>
+                    </div>
+
+                    <div class="summary-row discount-row" id="discount-row" style="display: none;">
+                        <span>Desconto:</span>
+                        <span id="discount-amount" class="discount-text">- R$ 0,00</span>
+                    </div>
+
+                    <div class="summary-row total-row">
+                        <span>Total:</span>
+                        <span id="total" class="total-price">R$ 0,00</span>
+                    </div>
+
+                    <button id="checkout-btn" class="btn btn-primary btn-large">Finalizar Compra</button>
+                    <a href="cardapio.html" class="btn btn-outline">Continuar Comprando</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Sweet Cupcakes. Todos os direitos reservados.</p>
+            <p>Contato: (51) 99999-9999 | contato@sweetcupcakes.com.br</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
