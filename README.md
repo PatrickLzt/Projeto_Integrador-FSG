@@ -51,12 +51,14 @@ O **Sweet Cupcakes** é um sistema completo de e-commerce que permite:
 ## 🛠️ Tecnologias Utilizadas
 
 ### Front-End
+
 - **HTML5** - Estrutura semântica
 - **CSS3** - Estilização moderna (Flexbox, Grid, Animations)
 - **JavaScript (Vanilla)** - Lógica de interação
 - **LocalStorage** - Persistência temporária do carrinho
 
 ### Back-End
+
 - **Python 3.11+** - Linguagem principal
 - **Django 4.2.7** - Framework web
 - **Django REST Framework 3.14.0** - API REST
@@ -64,12 +66,14 @@ O **Sweet Cupcakes** é um sistema completo de e-commerce que permite:
 - **drf-yasg 1.21.7** - Documentação automática Swagger
 
 ### Banco de Dados
+
 - **PostgreSQL 12+** - Banco de dados relacional
 - **15 tabelas normalizadas** - Estrutura otimizada
 - **Views e Triggers** - Lógica no banco
 - **Índices estratégicos** - Performance
 
 ### Ferramentas de Desenvolvimento
+
 - **VS Code** - IDE
 - **Git/GitHub** - Controle de versão
 - **Postman** - Testes de API
@@ -252,24 +256,28 @@ Projeto_Integrador-FSG/
 ### Páginas Implementadas
 
 #### 1. **index.html** - Página Inicial
+
 - Hero section com call-to-action
 - Produtos em destaque
 - Seção "Sobre Nós"
 - Navegação responsiva
 
 #### 2. **cardapio.html** - Catálogo de Produtos
+
 - Listagem de todos os cupcakes
 - Filtros por categoria (Chocolate, Frutas, Especiais)
 - Cards de produtos com preço e botão "Adicionar"
 - Responsive grid layout
 
 #### 3. **carrinho.html** - Carrinho de Compras
+
 - Listagem de itens adicionados
 - Controles de quantidade (+/-)
 - Aplicação de cupons de desconto
 - Resumo do pedido (subtotal, desconto, frete, total)
 
 #### 4. **checkout.html** - Finalização
+
 - Formulário de dados do cliente
 - Seleção de tipo de entrega (Entrega/Retirada)
 - Formulário de endereço (se entrega)
@@ -341,6 +349,7 @@ const cupons = {
 ### Documentação do Front-End
 
 📖 **Para mais detalhes**, consulte:
+
 - Código-fonte em `frontend/`
 - Comentários inline no `script.js`
 - Documentação CSS no `style.css`
@@ -364,6 +373,7 @@ Response ← JSON ←────────────┘
 ### Models (Entidades)
 
 #### 1. **Categoria** (`models/categoria.py`)
+
 ```python
 - nome (CharField, unique)
 - slug (SlugField, unique)
@@ -372,6 +382,7 @@ Response ← JSON ←────────────┘
 ```
 
 #### 2. **Cupcake** (`models/cupcake.py`)
+
 ```python
 - nome, descricao, preco, estoque
 - categorias (ManyToMany)
@@ -380,6 +391,7 @@ Response ← JSON ←────────────┘
 ```
 
 #### 3. **Carrinho** (`models/carrinho.py`)
+
 ```python
 - usuario (OneToOneField User)
 - ItemCarrinho (quantidade, preco_unitario)
@@ -387,6 +399,7 @@ Response ← JSON ←────────────┘
 ```
 
 #### 4. **Cupom** (`models/cupom.py`)
+
 ```python
 - codigo (unique), tipo_desconto
 - valor_desconto, percentual_desconto
@@ -396,6 +409,7 @@ Response ← JSON ←────────────┘
 ```
 
 #### 5. **Pedido** (`models/pedido.py`)
+
 ```python
 - numero_pedido (auto-generated)
 - usuario, status, tipo_entrega
@@ -405,6 +419,7 @@ Response ← JSON ←────────────┘
 ```
 
 #### 6. **Pagamento** (`models/pagamento.py`)
+
 ```python
 - pedido (OneToOne)
 - metodo_pagamento, status
@@ -415,6 +430,7 @@ Response ← JSON ←────────────┘
 ### Services (Lógica de Negócio)
 
 #### 1. **CupomService** (`services/cupom_service.py`)
+
 ```python
 @staticmethod
 def validar_cupom(codigo, valor_pedido, usuario):
@@ -432,6 +448,7 @@ def validar_cupom(codigo, valor_pedido, usuario):
 **Testes**: 12 cenários cobertos
 
 #### 2. **FreteService** (`services/frete_service.py`)
+
 ```python
 @staticmethod
 def calcular_frete(estado, valor_pedido):
@@ -447,6 +464,7 @@ def calcular_frete(estado, valor_pedido):
 **Testes**: 13 cenários cobertos
 
 #### 3. **CarrinhoService** (`services/carrinho_service.py`)
+
 ```python
 - adicionar_item() com validação de estoque
 - atualizar_quantidade() com @transaction.atomic
@@ -455,6 +473,7 @@ def calcular_frete(estado, valor_pedido):
 ```
 
 #### 4. **PedidoService** (`services/pedido_service.py`)
+
 ```python
 @staticmethod
 @transaction.atomic
@@ -488,6 +507,7 @@ class CupcakeSerializer(serializers.ModelSerializer):
 ```
 
 **Validações implementadas**:
+
 - Validação de campos obrigatórios
 - Validação de formato de dados
 - Validação de regras de negócio
@@ -537,6 +557,7 @@ REST_FRAMEWORK = {
 ```
 
 **Endpoints de autenticação**:
+
 - `POST /api/auth/registro/` - Criar conta
 - `POST /api/auth/login/` - Login (retorna token)
 - `POST /api/auth/logout/` - Logout (invalida token)
@@ -560,6 +581,7 @@ Acesso: `http://localhost:8000/admin/`
 ### Documentação do Back-End
 
 📖 **Para mais detalhes**, consulte:
+
 - Código-fonte em `backend/cupcakes_api/`
 - `backend/README.md` - Documentação completa
 - Swagger UI: `http://localhost:8000/swagger/`
@@ -748,6 +770,7 @@ O `seed_data.sql` inclui:
 ### Documentação do Banco
 
 📖 **Documentação completa** em `database/`:
+
 - [`INDEX.md`](database/INDEX.md) - Navegação da documentação
 - [`README.md`](database/README.md) - Guia de instalação
 - [`dicionario_dados.md`](database/dicionario_dados.md) - Todas as tabelas
@@ -879,6 +902,7 @@ CORS_ALLOWED_ORIGINS = [
 ### Para Clientes
 
 #### 🏠 Navegação e Catálogo
+
 - ✅ Visualizar página inicial com destaques
 - ✅ Navegar pelo catálogo completo
 - ✅ Filtrar produtos por categoria
@@ -886,6 +910,7 @@ CORS_ALLOWED_ORIGINS = [
 - ✅ Ver detalhes de cada produto
 
 #### 🛒 Carrinho de Compras
+
 - ✅ Adicionar produtos ao carrinho
 - ✅ Alterar quantidade de itens
 - ✅ Remover itens do carrinho
@@ -893,12 +918,14 @@ CORS_ALLOWED_ORIGINS = [
 - ✅ Carrinho persiste no navegador (LocalStorage)
 
 #### 🎟️ Cupons de Desconto
+
 - ✅ Aplicar cupom de desconto
 - ✅ Ver desconto calculado
 - ✅ Remover cupom aplicado
 - ✅ Validações: expiração, valor mínimo, limite de uso
 
 #### 📦 Finalização de Pedido
+
 - ✅ Preencher dados pessoais
 - ✅ Escolher tipo de entrega (Entrega/Retirada)
 - ✅ Informar endereço de entrega
@@ -908,6 +935,7 @@ CORS_ALLOWED_ORIGINS = [
 - ✅ Ver resumo do pedido antes de confirmar
 
 #### 👤 Conta de Usuário
+
 - ✅ Criar conta
 - ✅ Fazer login
 - ✅ Ver histórico de pedidos
@@ -917,12 +945,14 @@ CORS_ALLOWED_ORIGINS = [
 ### Para Administradores
 
 #### 📊 Dashboard
+
 - ✅ Ver métricas gerais (vendas, clientes, produtos)
 - ✅ Gráficos de vendas
 - ✅ Produtos mais vendidos
 - ✅ Relatórios personalizados
 
 #### 🧁 Gestão de Produtos
+
 - ✅ Cadastrar novos cupcakes
 - ✅ Editar informações de produtos
 - ✅ Definir preço e preço promocional
@@ -932,12 +962,14 @@ CORS_ALLOWED_ORIGINS = [
 - ✅ Upload de imagens
 
 #### 📂 Gestão de Categorias
+
 - ✅ Criar categorias
 - ✅ Editar categorias
 - ✅ Definir ordem de exibição
 - ✅ Ativar/desativar categorias
 
 #### 🎫 Gestão de Cupons
+
 - ✅ Criar cupons (percentual ou fixo)
 - ✅ Definir validade
 - ✅ Definir valor mínimo
@@ -945,6 +977,7 @@ CORS_ALLOWED_ORIGINS = [
 - ✅ Ver relatório de uso de cupons
 
 #### 📦 Gestão de Pedidos
+
 - ✅ Ver todos os pedidos
 - ✅ Filtrar por status
 - ✅ Atualizar status do pedido
@@ -953,6 +986,7 @@ CORS_ALLOWED_ORIGINS = [
 - ✅ Cancelar pedidos
 
 #### 👥 Gestão de Usuários
+
 - ✅ Ver lista de clientes
 - ✅ Ver histórico de compras
 - ✅ Ativar/desativar contas
@@ -964,9 +998,9 @@ CORS_ALLOWED_ORIGINS = [
 
 ### Documentação Automática
 
-- **Swagger UI**: http://localhost:8000/swagger/
-- **ReDoc**: http://localhost:8000/redoc/
-- **Schema JSON**: http://localhost:8000/swagger.json
+- **Swagger UI**: <http://localhost:8000/swagger/>
+- **ReDoc**: <http://localhost:8000/redoc/>
+- **Schema JSON**: <http://localhost:8000/swagger.json>
 
 ### Endpoints Principais
 
@@ -1149,6 +1183,7 @@ GET /api/cupcakes/?page=2&page_size=10
 ```
 
 Resposta:
+
 ```json
 {
   "count": 17,
@@ -1509,6 +1544,7 @@ chore: Tarefas de manutenção
 ### Reportar Bugs
 
 Abra uma issue com:
+
 - Descrição clara do problema
 - Passos para reproduzir
 - Comportamento esperado vs atual
@@ -1605,18 +1641,21 @@ Este projeto foi desenvolvido como trabalho acadêmico e proporcionou aprendizad
 ### Roadmap
 
 #### Versão 1.1
+
 - [ ] Integração com gateway de pagamento real (Stripe/PayPal)
 - [ ] Sistema de notificações por email
 - [ ] Painel administrativo aprimorado
 - [ ] Relatórios em PDF
 
 #### Versão 1.2
+
 - [ ] App mobile (React Native)
 - [ ] Sistema de fidelidade/pontos
 - [ ] Programa de indicação
 - [ ] Chat de suporte
 
 #### Versão 2.0
+
 - [ ] Marketplace multi-vendedores
 - [ ] Sistema de delivery próprio
 - [ ] Assinatura mensal de cupcakes

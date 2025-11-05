@@ -682,10 +682,10 @@ INSERT INTO categories (nome, slug, descricao, icone, ordem) VALUES
 ('Diet', 'diet', 'Opções diet e sem açúcar', '🥗', 5);
 
 -- Inserir cupons de exemplo
-INSERT INTO coupons (codigo, descricao, tipo_desconto, percentual_desconto, valor_minimo_pedido, data_inicio, data_expiracao, uso_maximo) VALUES
-('BEMVINDO', 'Cupom de boas-vindas - 10% de desconto', 'percentual', 10.00, 50.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '90 days', 1000),
-('DOCURA15', '15% de desconto em qualquer pedido', 'percentual', 15.00, 0.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '30 days', 500),
-('VALE20', 'R$ 20 de desconto', 'fixo', 20.00, 100.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '60 days', 300);
+INSERT INTO coupons (codigo, descricao, tipo_desconto, percentual_desconto, valor_desconto, valor_minimo_pedido, data_inicio, data_expiracao, uso_maximo) VALUES
+('BEMVINDO', 'Cupom de boas-vindas - 10% de desconto', 'percentual', 10.00, NULL, 50.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '90 days', 1000),
+('DOCURA15', '15% de desconto em qualquer pedido', 'percentual', 15.00, NULL, 0.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '30 days', 500),
+('VALE20', 'R$ 20 de desconto', 'fixo', NULL, 20.00, 100.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '60 days', 300);
 
 -- =====================================================
 -- FIM DO SCRIPT
