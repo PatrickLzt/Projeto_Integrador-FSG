@@ -30,3 +30,6 @@ whitenoise==6.6.0
 
 # ===== DOCUMENTAÇÃO API =====
 drf-yasg==1.21.7
+
+# ===== OUTRAS DEPENDÊNCIAS =====
+setuptools>=80.9.0
