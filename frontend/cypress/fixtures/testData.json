@@ -1,0 +1,36 @@
+{
+    "usuario": {
+        "nome": "João da Silva",
+        "email": "joao.teste@email.com",
+        "telefone": "11999887766"
+    },
+    "enderecoEntrega": {
+        "rua": "Rua das Flores",
+        "numero": "123",
+        "complemento": "Apto 45",
+        "bairro": "Centro",
+        "cidade": "São Paulo",
+        "estado": "SP",
+        "cep": "01234567"
+    },
+    "cupons": {
+        "valido": "DOCURA10",
+        "percentual": "PRIMEIRA",
+        "fixo": "CUPOM20",
+        "invalido": "INVALIDO123"
+    },
+    "produtos": [
+        {
+            "nome": "Red Velvet",
+            "preco": 8.50
+        },
+        {
+            "nome": "Chocolate Belga",
+            "preco": 9.00
+        },
+        {
+            "nome": "Morango com Chantilly",
+            "preco": 7.50
+        }
+    ]
+}

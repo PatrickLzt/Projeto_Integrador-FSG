@@ -1,0 +1,19 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "test": "cypress run",
+    "test:open": "cypress open",
+    "test:headless": "cypress run --headless",
+    "test:chrome": "cypress run --browser chrome",
+    "test:firefox": "cypress run --browser firefox"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "cypress": "^15.6.0"
+  }
+}
