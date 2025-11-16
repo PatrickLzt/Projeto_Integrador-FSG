@@ -16,7 +16,7 @@ const products = [
         price: 9.00,
         category: 'frutas',
         featured: true,
-        image: 'https://images.unsplash.com/photo-1587241321921-91a834d82b01?w=500&h=500&fit=crop'
+        image: 'https://images.unsplash.com/photo-1426869884541-df7117556757?w=500&h=500&fit=crop'
     },
     {
         id: 3,
