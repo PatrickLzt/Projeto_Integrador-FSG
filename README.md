@@ -867,16 +867,25 @@ python -m http.server 3000
 
 # Opção 2: Usar Live Server do VS Code
 # Instale a extensão "Live Server"
-# Clique com botão direito em index.html > "Open with Live Server"
+# Clique com botão direito em login.html > "Open with Live Server"
 
 # Opção 3: Usar servidor Node.js
 npx http-server -p 3000
 ```
 
+**⚠️ IMPORTANTE: Sistema com Autenticação Obrigatória**
+
+O sistema agora requer login para acessar qualquer página:
+- Ao acessar qualquer URL, você será redirecionado para `login.html`
+- Após o login, terá acesso a todas as funcionalidades
+- Use as credenciais demo para testar:
+  - **Admin**: `admin@sweetcupcakes.com` / `admin123`
+  - **Cliente**: `joao@email.com` / `123456`
+
 ### Passo 5: Acessar o Sistema
 
 ```
-Front-End:  http://localhost:3000
+Front-End:  http://localhost:3000/login.html  (Página inicial)
 Back-End:   http://localhost:8000
 Admin:      http://localhost:8000/admin
 API Docs:   http://localhost:8000/swagger
@@ -934,13 +943,22 @@ CORS_ALLOWED_ORIGINS = [
 - ✅ Informar troco (se dinheiro)
 - ✅ Ver resumo do pedido antes de confirmar
 
-#### 👤 Conta de Usuário
+#### 👤 Conta de Usuário e Autenticação
 
-- ✅ Criar conta
-- ✅ Fazer login
+- ✅ **Sistema de autenticação obrigatório**
+- ✅ Criar conta (cadastro.html)
+- ✅ Fazer login (login.html)
+- ✅ Logout seguro
+- ✅ Sessão persistente (localStorage/sessionStorage)
+- ✅ Menu dinâmico com nome do usuário
+- ✅ Auto-preenchimento de dados no checkout
 - ✅ Ver histórico de pedidos
 - ✅ Acompanhar status do pedido
 - ✅ Avaliar produtos comprados
+
+**🔐 Credenciais de Teste:**
+- Admin: `admin@sweetcupcakes.com` / `admin123`
+- Cliente: `joao@email.com` / `123456`
 
 ### Para Administradores
 

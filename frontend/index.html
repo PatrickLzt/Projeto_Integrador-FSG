@@ -62,7 +62,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <p>&copy; 2025 Sweet Cupcakes. Todos os direitos reservados.</p>
@@ -70,6 +69,11 @@
         </div>
     </footer>
 
+    <script src="auth.js"></script>
+    <script>
+        // Proteger página - requer login
+        Auth.requireLogin('index.html');
+    </script>
     <script src="script.js"></script>
 </body>
 

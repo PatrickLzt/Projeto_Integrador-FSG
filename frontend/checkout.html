@@ -209,6 +209,25 @@
         </div>
     </footer>
 
+    <script src="auth.js"></script>
+    <script>
+        // Proteger página - requer login
+        Auth.requireLogin('checkout.html');
+
+        // Preencher dados do usuário automaticamente
+        document.addEventListener('DOMContentLoaded', function () {
+            const user = Auth.getCurrentUser();
+            if (user) {
+                const nameField = document.getElementById('name');
+                const emailField = document.getElementById('email');
+                const phoneField = document.getElementById('phone');
+
+                if (nameField) nameField.value = `${user.firstName} ${user.lastName}`;
+                if (emailField) emailField.value = user.email;
+                if (phoneField) phoneField.value = user.phone;
+            }
+        });
+    </script>
     <script src="script.js"></script>
 </body>
 
