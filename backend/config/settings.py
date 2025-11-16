@@ -22,6 +22,18 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
+# Adicionar suporte para Vercel
+VERCEL_URL = os.environ.get('VERCEL_URL')
+if VERCEL_URL:
+    ALLOWED_HOSTS.append(VERCEL_URL)
+    ALLOWED_HOSTS.append(f'https://{VERCEL_URL}')
+    
+# Adicionar qualquer domínio .vercel.app
+ALLOWED_HOSTS.extend([
+    '.vercel.app',
+    '.now.sh',
+])
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -159,6 +171,18 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:5173",
+]
+
+# Adicionar origens da Vercel
+if VERCEL_URL:
+    CORS_ALLOWED_ORIGINS.extend([
+        f'https://{VERCEL_URL}',
+        f'http://{VERCEL_URL}',
+    ])
+
+# Permitir todas as origens .vercel.app em produção
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.vercel\.app$",
 ]
 
 CORS_ALLOW_CREDENTIALS = True

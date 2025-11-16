@@ -5,21 +5,27 @@
 .env
 .env.local
 .env.production
+backend/.env
 
 # Dependencies
 node_modules/
 venv/
+env/
 __pycache__/
+*.pyc
 
-# Database
+# Database (SQLite não funciona em serverless)
 *.sqlite3
 *.db
+db.sqlite3
 
 # Python
 *.pyc
 *.pyo
 *.pyd
 .Python
+*.py[cod]
+*$py.class
 
 # IDE
 .vscode/
@@ -41,8 +47,19 @@ cypress/screenshots/
 cypress/videos/
 .coverage
 htmlcov/
+backend/cupcakes_api/tests/
 
 # Build
 dist/
 build/
 *.egg-info/
+
+# Documentation
+database/
+*.md
+!README.md
+!VERCEL_FULLSTACK.md
+
+# Git
+.git/
+.gitignore
