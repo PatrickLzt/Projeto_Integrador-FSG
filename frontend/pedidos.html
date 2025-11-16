@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Pedidos - Sweet Cupcakes</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .orders-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .orders-header {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .orders-header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .filter-group select {
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .order-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .order-header {
+            background: var(--bg-light);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .order-number {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .order-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .order-status {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .status-pendente {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmado {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-preparando {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-enviado {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-entregue {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelado {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .order-body {
+            padding: 20px;
+        }
+
+        .order-items {
+            margin-bottom: 20px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .item-details h4 {
+            margin: 0;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .item-details p {
+            margin: 5px 0 0 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .item-price {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .order-summary {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .summary-row.total {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            padding-top: 10px;
+            border-top: 2px solid #e0e0e0;
+            margin-top: 10px;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+        }
+
+        .btn-outline {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .empty-state-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .orders-container {
+                padding: 10px;
+            }
+
+            .orders-header {
+                padding: 30px 20px;
+            }
+
+            .orders-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .item-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .order-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-content">
+                    <h1 class="logo">🧁 Sweet Cupcakes</h1>
+                    <ul class="nav-menu">
+                        <li><a href="index.html" class="nav-link">Início</a></li>
+                        <li><a href="cardapio.html" class="nav-link">Cardápio</a></li>
+                        <li><a href="carrinho.html" class="nav-link">Carrinho <span id="cart-count"
+                                    class="cart-badge">0</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Orders Container -->
+    <div class="orders-container">
+        <!-- Orders Header -->
+        <div class="orders-header">
+            <h1>📦 Meus Pedidos</h1>
+            <p id="ordersSubtitle">Acompanhe todos os seus pedidos</p>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+            <div class="filter-group">
+                <label>Filtrar por Status</label>
+                <select id="statusFilter" onchange="filterOrders()">
+                    <option value="todos">Todos</option>
+                    <option value="pendente">Pendente</option>
+                    <option value="confirmado">Confirmado</option>
+                    <option value="preparando">Preparando</option>
+                    <option value="enviado">Enviado</option>
+                    <option value="entregue">Entregue</option>
+                    <option value="cancelado">Cancelado</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Ordenar por</label>
+                <select id="sortFilter" onchange="filterOrders()">
+                    <option value="recente">Mais Recente</option>
+                    <option value="antigo">Mais Antigo</option>
+                    <option value="valor">Maior Valor</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Orders List -->
+        <div id="ordersList" class="orders-list">
+            <!-- Orders will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Sweet Cupcakes. Todos os direitos reservados.</p>
+            <p>Contato: (51) 99999-9999 | contato@sweetcupcakes.com.br</p>
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Proteger página - requer login
+        Auth.requireLogin('pedidos.html');
+
+        let allOrders = [];
+
+        // Load real orders only
+        function loadUserOrders() {
+            const user = Auth.getCurrentUser();
+            if (!user) return [];
+
+            // Get orders from localStorage
+            const orders = JSON.parse(localStorage.getItem('user_orders') || '[]');
+
+            // Filter orders for current user
+            const userOrders = orders.filter(o => o.userId === user.id);
+
+            return userOrders;
+        }
+
+        function loadOrders() {
+            allOrders = loadUserOrders();
+            displayOrders(allOrders);
+            updateSubtitle();
+        }
+
+        function updateSubtitle() {
+            const subtitle = document.getElementById('ordersSubtitle');
+            if (allOrders.length === 0) {
+                subtitle.textContent = 'Você ainda não fez nenhum pedido';
+            } else {
+                subtitle.textContent = `${allOrders.length} pedido${allOrders.length > 1 ? 's' : ''} realizado${allOrders.length > 1 ? 's' : ''}`;
+            }
+        }
+
+        function displayOrders(orders) {
+            const container = document.getElementById('ordersList');
+
+            if (orders.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📦</div>
+                        <h2>Nenhum pedido encontrado</h2>
+                        <p>Você ainda não fez nenhum pedido. Que tal começar agora?</p>
+                        <a href="cardapio.html" class="btn btn-primary">Ver Cardápio</a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = orders.map(order => `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <div class="order-number">${order.id}</div>
+                            <div class="order-date">${formatDate(order.date)}</div>
+                        </div>
+                        <div class="order-status status-${order.status}">
+                            ${getStatusLabel(order.status)}
+                        </div>
+                    </div>
+                    <div class="order-body">
+                        <div class="order-items">
+                            ${order.items.map(item => `
+                                <div class="order-item">
+                                    <div class="item-info">
+                                        <img src="${item.image}" alt="${item.name}" class="item-image">
+                                        <div class="item-details">
+                                            <h4>${item.name}</h4>
+                                            <p>Quantidade: ${item.quantity}</p>
+                                        </div>
+                                    </div>
+                                    <div class="item-price">R$ ${(item.price * item.quantity).toFixed(2)}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="order-summary">
+                            <div class="summary-row">
+                                <span>Subtotal:</span>
+                                <span>R$ ${order.subtotal.toFixed(2)}</span>
+                            </div>
+                            ${order.discount > 0 ? `
+                                <div class="summary-row">
+                                    <span>Desconto:</span>
+                                    <span>- R$ ${order.discount.toFixed(2)}</span>
+                                </div>
+                            ` : ''}
+                            ${order.shipping > 0 ? `
+                                <div class="summary-row">
+                                    <span>Frete:</span>
+                                    <span>R$ ${order.shipping.toFixed(2)}</span>
+                                </div>
+                            ` : ''}
+                            <div class="summary-row total">
+                                <span>Total:</span>
+                                <span>R$ ${order.total.toFixed(2)}</span>
+                            </div>
+                        </div>
+                        <div class="order-actions">
+                            ${order.status === 'entregue' ? `
+                                <button class="btn btn-primary" onclick="reorderOrder('${order.id}')">🔄 Pedir Novamente</button>
+                            ` : ''}
+                            ${order.status === 'pendente' || order.status === 'confirmado' ? `
+                                <button class="btn btn-outline" onclick="cancelOrder('${order.id}')">❌ Cancelar Pedido</button>
+                            ` : ''}
+                            <button class="btn btn-outline" onclick="viewOrderDetails('${order.id}')">👁️ Ver Detalhes</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterOrders() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const sortFilter = document.getElementById('sortFilter').value;
+
+            let filtered = [...allOrders];
+
+            // Filter by status
+            if (statusFilter !== 'todos') {
+                filtered = filtered.filter(order => order.status === statusFilter);
+            }
+
+            // Sort
+            filtered.sort((a, b) => {
+                if (sortFilter === 'recente') {
+                    return new Date(b.date) - new Date(a.date);
+                } else if (sortFilter === 'antigo') {
+                    return new Date(a.date) - new Date(b.date);
+                } else if (sortFilter === 'valor') {
+                    return b.total - a.total;
+                }
+                return 0;
+            });
+
+            displayOrders(filtered);
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+            });
+        }
+
+        function getStatusLabel(status) {
+            const labels = {
+                'pendente': '⏳ Pendente',
+                'confirmado': '✅ Confirmado',
+                'preparando': '👨‍🍳 Preparando',
+                'enviado': '🚚 Enviado',
+                'entregue': '✅ Entregue',
+                'cancelado': '❌ Cancelado'
+            };
+            return labels[status] || status;
+        }
+
+        function reorderOrder(orderId) {
+            const order = allOrders.find(o => o.id === orderId);
+            if (!order) return;
+
+            // Add items to cart
+            order.items.forEach(item => {
+                const product = products.find(p => p.name === item.name);
+                if (product) {
+                    for (let i = 0; i < item.quantity; i++) {
+                        addToCart(product.id);
+                    }
+                }
+            });
+
+            alert('Produtos adicionados ao carrinho!');
+            window.location.href = 'carrinho.html';
+        }
+
+        function cancelOrder(orderId) {
+            if (!confirm('Tem certeza que deseja cancelar este pedido?')) return;
+
+            const orders = JSON.parse(localStorage.getItem('user_orders') || '[]');
+            const orderIndex = orders.findIndex(o => o.id === orderId);
+
+            if (orderIndex !== -1) {
+                orders[orderIndex].status = 'cancelado';
+                localStorage.setItem('user_orders', JSON.stringify(orders));
+                loadOrders();
+                alert('Pedido cancelado com sucesso!');
+            }
+        }
+
+        function viewOrderDetails(orderId) {
+            alert(`Visualizando detalhes do pedido ${orderId}`);
+            // Aqui você pode implementar um modal com mais detalhes
+        }
+
+        // Load orders on page load
+        loadOrders();
+    </script>
+</body>
+
+</html>

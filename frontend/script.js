@@ -530,6 +530,11 @@ function setupCheckoutPage() {
             e.preventDefault();
 
             const formData = new FormData(checkoutForm);
+            const subtotal = calculateSubtotal();
+            const discount = calculateDiscount(subtotal);
+            const deliveryFee = formData.get('delivery-option') === 'delivery' ? 8.00 : 0;
+            const total = subtotal - discount + deliveryFee;
+
             const orderData = {
                 customer: {
                     name: formData.get('name'),
@@ -549,14 +554,16 @@ function setupCheckoutPage() {
                 cashAmount: formData.get('cash-amount'),
                 items: cart,
                 coupon: appliedCoupon,
-                subtotal: calculateSubtotal(),
-                discount: calculateDiscount(calculateSubtotal()),
-                deliveryFee: formData.get('delivery-option') === 'delivery' ? 8.00 : 0,
-                total: calculateSubtotal() - calculateDiscount(calculateSubtotal()) +
-                    (formData.get('delivery-option') === 'delivery' ? 8.00 : 0)
+                subtotal: subtotal,
+                discount: discount,
+                deliveryFee: deliveryFee,
+                total: total
             };
 
             console.log('Pedido realizado:', orderData);
+
+            // Salvar pedido no localStorage
+            saveOrder(orderData);
 
             // Limpar carrinho e cupom
             cart = [];
@@ -567,9 +574,56 @@ function setupCheckoutPage() {
 
             // Mostrar mensagem de sucesso
             alert('🎉 Pedido realizado com sucesso! Em breve você receberá a confirmação por e-mail.');
-            window.location.href = 'index.html';
+            window.location.href = 'pedidos.html';
         });
     }
+}
+
+// ===== Salvar Pedido =====
+function saveOrder(orderData) {
+    const user = Auth.getCurrentUser();
+    if (!user) return;
+
+    // Get existing orders
+    const orders = JSON.parse(localStorage.getItem('user_orders') || '[]');
+
+    // Generate order ID
+    const orderNumber = `PED-${String(orders.length + 1).padStart(3, '0')}`;
+
+    // Create order object
+    const order = {
+        id: orderNumber,
+        userId: user.id,
+        date: new Date().toISOString(),
+        status: 'pendente',
+        customer: orderData.customer,
+        deliveryOption: orderData.deliveryOption,
+        address: orderData.address,
+        paymentMethod: orderData.paymentMethod,
+        items: orderData.items.map(item => {
+            const product = products.find(p => p.id === item.id);
+            return {
+                id: item.id,
+                name: product ? product.name : 'Produto',
+                quantity: item.quantity,
+                price: product ? product.price : 0,
+                image: product ? product.image : ''
+            };
+        }),
+        subtotal: orderData.subtotal,
+        discount: orderData.discount,
+        shipping: orderData.deliveryFee,
+        total: orderData.total,
+        coupon: orderData.coupon
+    };
+
+    // Add to orders array
+    orders.push(order);
+
+    // Save to localStorage
+    localStorage.setItem('user_orders', JSON.stringify(orders));
+
+    console.log('Pedido salvo:', order);
 }
 
 // ===== Inicialização =====

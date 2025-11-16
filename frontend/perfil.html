@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - Sweet Cupcakes</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .profile-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .profile-header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .profile-header .user-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .profile-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .profile-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-section h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.1);
+        }
+
+        .form-group input:disabled {
+            background: #f5f5f5;
+            cursor: not-allowed;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.3);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 10px;
+            }
+
+            .profile-header {
+                padding: 30px 20px;
+            }
+
+            .profile-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .profile-section {
+                padding: 20px;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-content">
+                    <h1 class="logo">🧁 Sweet Cupcakes</h1>
+                    <ul class="nav-menu">
+                        <li><a href="index.html" class="nav-link">Início</a></li>
+                        <li><a href="cardapio.html" class="nav-link">Cardápio</a></li>
+                        <li><a href="carrinho.html" class="nav-link">Carrinho <span id="cart-count"
+                                    class="cart-badge">0</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Profile Container -->
+    <div class="profile-container">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="user-icon">👤</div>
+            <h1 id="profileUserName">Carregando...</h1>
+            <p id="profileUserEmail"></p>
+        </div>
+
+        <div class="profile-content">
+            <!-- Personal Information -->
+            <div class="profile-section">
+                <h2>📋 Informações Pessoais</h2>
+
+                <div id="viewMode">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Nome</span>
+                            <span class="info-value" id="displayFirstName">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Sobrenome</span>
+                            <span class="info-value" id="displayLastName">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">E-mail</span>
+                            <span class="info-value" id="displayEmail">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Telefone</span>
+                            <span class="info-value" id="displayPhone">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Membro desde</span>
+                            <span class="info-value" id="displayCreatedAt">-</span>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="enableEditMode()">✏️ Editar Perfil</button>
+                    </div>
+                </div>
+
+                <div id="editMode" style="display: none;">
+                    <div id="editAlert" class="alert"></div>
+                    <form id="editProfileForm">
+                        <div class="form-group">
+                            <label for="editFirstName">Nome</label>
+                            <input type="text" id="editFirstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editLastName">Sobrenome</label>
+                            <input type="text" id="editLastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmail">E-mail</label>
+                            <input type="email" id="editEmail" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPhone">Telefone</label>
+                            <input type="tel" id="editPhone" required>
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary">💾 Salvar Alterações</button>
+                            <button type="button" class="btn btn-secondary" onclick="cancelEdit()">❌ Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Change Password -->
+            <div class="profile-section">
+                <h2>🔒 Alterar Senha</h2>
+                <div id="passwordAlert" class="alert"></div>
+                <form id="changePasswordForm">
+                    <div class="form-group">
+                        <label for="currentPassword">Senha Atual</label>
+                        <input type="password" id="currentPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">Nova Senha</label>
+                        <input type="password" id="newPassword" minlength="6" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmNewPassword">Confirmar Nova Senha</label>
+                        <input type="password" id="confirmNewPassword" minlength="6" required>
+                    </div>
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary">🔐 Alterar Senha</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Statistics -->
+            <div class="profile-section">
+                <h2>📊 Estatísticas</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="statOrders">0</div>
+                        <div class="stat-label">Pedidos Realizados</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="statSpent">R$ 0,00</div>
+                        <div class="stat-label">Total Gasto</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="statFavorite">-</div>
+                        <div class="stat-label">Sabor Favorito</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Sweet Cupcakes. Todos os direitos reservados.</p>
+            <p>Contato: (51) 99999-9999 | contato@sweetcupcakes.com.br</p>
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Proteger página - requer login
+        Auth.requireLogin('perfil.html');
+
+        // Load user data
+        function loadUserData() {
+            const user = Auth.getCurrentUser();
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Header
+            document.getElementById('profileUserName').textContent = `${user.firstName} ${user.lastName}`;
+            document.getElementById('profileUserEmail').textContent = user.email;
+
+            // View mode
+            document.getElementById('displayFirstName').textContent = user.firstName;
+            document.getElementById('displayLastName').textContent = user.lastName;
+            document.getElementById('displayEmail').textContent = user.email;
+            document.getElementById('displayPhone').textContent = user.phone;
+
+            // Format date
+            const createdDate = new Date(user.loginAt || Date.now());
+            document.getElementById('displayCreatedAt').textContent = createdDate.toLocaleDateString('pt-BR');
+
+            // Load statistics
+            loadStatistics();
+        }
+
+        function loadStatistics() {
+            // Get real orders from localStorage
+            const orders = JSON.parse(localStorage.getItem('user_orders') || '[]');
+            const user = Auth.getCurrentUser();
+            const userOrders = orders.filter(o => o.userId === user.id);
+
+            // Total orders
+            document.getElementById('statOrders').textContent = userOrders.length;
+
+            // Total spent
+            const totalSpent = userOrders.reduce((sum, order) => sum + (order.total || 0), 0);
+            document.getElementById('statSpent').textContent = `R$ ${totalSpent.toFixed(2)}`;
+
+            // Favorite flavor - calculate from orders
+            if (userOrders.length > 0) {
+                const flavorCount = {};
+                userOrders.forEach(order => {
+                    order.items.forEach(item => {
+                        const flavorName = item.name || 'Desconhecido';
+                        flavorCount[flavorName] = (flavorCount[flavorName] || 0) + item.quantity;
+                    });
+                });
+
+                // Find most ordered flavor
+                let maxCount = 0;
+                let favoriteFlavor = '-';
+                for (const [flavor, count] of Object.entries(flavorCount)) {
+                    if (count > maxCount) {
+                        maxCount = count;
+                        favoriteFlavor = flavor.replace('Cupcake de ', '').replace('Cupcake ', '');
+                    }
+                }
+                document.getElementById('statFavorite').textContent = favoriteFlavor;
+            } else {
+                document.getElementById('statFavorite').textContent = '-';
+            }
+        }
+
+        function enableEditMode() {
+            const user = Auth.getCurrentUser();
+
+            // Preencher formulário
+            document.getElementById('editFirstName').value = user.firstName;
+            document.getElementById('editLastName').value = user.lastName;
+            document.getElementById('editEmail').value = user.email;
+            document.getElementById('editPhone').value = user.phone;
+
+            // Trocar modos
+            document.getElementById('viewMode').style.display = 'none';
+            document.getElementById('editMode').style.display = 'block';
+        }
+
+        function cancelEdit() {
+            document.getElementById('viewMode').style.display = 'block';
+            document.getElementById('editMode').style.display = 'none';
+            document.getElementById('editAlert').classList.remove('show');
+        }
+
+        // Edit profile form
+        document.getElementById('editProfileForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const updates = {
+                firstName: document.getElementById('editFirstName').value.trim(),
+                lastName: document.getElementById('editLastName').value.trim(),
+                phone: document.getElementById('editPhone').value.trim()
+            };
+
+            const result = Auth.updateProfile(updates);
+
+            const alert = document.getElementById('editAlert');
+            if (result.success) {
+                alert.className = 'alert alert-success show';
+                alert.textContent = result.message;
+
+                // Atualizar display
+                setTimeout(() => {
+                    loadUserData();
+                    cancelEdit();
+                }, 1500);
+            } else {
+                alert.className = 'alert alert-error show';
+                alert.textContent = result.message;
+            }
+        });
+
+        // Change password form
+        document.getElementById('changePasswordForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+
+            const alert = document.getElementById('passwordAlert');
+
+            // Validar confirmação
+            if (newPassword !== confirmNewPassword) {
+                alert.className = 'alert alert-error show';
+                alert.textContent = 'As senhas não conferem';
+                return;
+            }
+
+            // Tentar alterar senha
+            const result = Auth.changePassword(currentPassword, newPassword);
+
+            if (result.success) {
+                alert.className = 'alert alert-success show';
+                alert.textContent = result.message;
+
+                // Limpar formulário
+                document.getElementById('changePasswordForm').reset();
+            } else {
+                alert.className = 'alert alert-error show';
+                alert.textContent = result.message;
+            }
+        });
+
+        // Phone mask
+        document.getElementById('editPhone').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.slice(0, 11);
+
+            if (value.length > 6) {
+                value = `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7)}`;
+            } else if (value.length > 2) {
+                value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
+            } else if (value.length > 0) {
+                value = `(${value}`;
+            }
+
+            e.target.value = value;
+        });
+
+        // Load on page load
+        loadUserData();
+    </script>
+</body>
+
+</html>
