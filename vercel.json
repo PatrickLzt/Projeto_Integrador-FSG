@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
         {
-            "src": "backend/config/wsgi.py",
+            "src": "api/index.py",
             "use": "@vercel/python",
             "config": {
                 "maxLambdaSize": "15mb",
@@ -17,15 +17,15 @@
     "routes": [
         {
             "src": "/api/(.*)",
-            "dest": "backend/config/wsgi.py"
+            "dest": "api/index.py"
         },
         {
             "src": "/admin/(.*)",
-            "dest": "backend/config/wsgi.py"
+            "dest": "api/index.py"
         },
         {
             "src": "/static/(.*)",
-            "dest": "backend/config/wsgi.py"
+            "dest": "api/index.py"
         },
         {
             "src": "/(.*\\.(html|css|js|png|jpg|jpeg|gif|svg|ico|json))",
