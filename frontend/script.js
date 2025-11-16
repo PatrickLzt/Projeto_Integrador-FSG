@@ -61,7 +61,7 @@ const products = [
         price: 11.00,
         category: 'chocolate',
         featured: true,
-        image: 'https://images.unsplash.com/photo-1426869884541-df7117556757?w=500&h=500&fit=crop'
+        image: 'https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=500&h=500&fit=crop'
     },
     {
         id: 8,
@@ -97,7 +97,7 @@ const products = [
         price: 10.50,
         category: 'especiais',
         featured: true,
-        image: 'https://images.unsplash.com/photo-1587241321921-91a834d82b01?w=500&h=500&fit=crop'
+        image: 'https://images.unsplash.com/photo-1519869325930-281384150729?w=500&h=500&fit=crop'
     },
     {
         id: 12,
@@ -106,7 +106,7 @@ const products = [
         price: 9.00,
         category: 'especiais',
         featured: false,
-        image: 'https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?w=500&h=500&fit=crop'
+        image: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=500&h=500&fit=crop'
     }
 ];
 
