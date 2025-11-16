@@ -3,72 +3,75 @@
 describe('Fluxo Completo E2E - Jornada do Usuário', () => {
     beforeEach(() => {
         cy.clearCart();
+        cy.clearAllData();
     });
 
-    it('CENÁRIO COMPLETO: Usuário compra cupcakes com sucesso', () => {
+    it('CENÁRIO COMPLETO: Novo usuário se cadastra e realiza primeira compra', () => {
+        const timestamp = Date.now();
+        const newUser = {
+            firstName: 'Teste',
+            lastName: 'E2E',
+            email: `teste${timestamp}@e2e.com`,
+            phone: '11987654321',
+            password: 'Teste@123'
+        };
+
         // 1. Visitar página inicial
         cy.visit('/index.html');
         cy.get('header').should('be.visible');
 
-        // 2. Navegar para o cardápio
-        cy.contains('Ver Cardápio').click();
-        cy.url().should('include', '/cardapio.html');
+        // 2. Clicar em "Cadastrar"
+        cy.contains('a', 'Cadastro').click();
+        cy.url().should('include', 'cadastro.html');
 
-        // 3. Filtrar produtos por categoria
-        cy.contains('.filter-btn', 'Chocolate').click();
-        cy.wait(500);
+        // 3. Realizar cadastro
+        cy.register(newUser);
+        cy.url().should('include', 'login.html');
 
-        // 4. Adicionar primeiro produto ao carrinho
+        // 4. Fazer login
+        cy.get('#loginForm').invoke('attr', 'novalidate', 'novalidate');
+        cy.get('#email').type(newUser.email);
+        cy.get('#password').type(newUser.password);
+        cy.get('button[type="submit"]').click();
+        cy.url().should('include', 'index.html');
+
+        // 5. Ir para o cardápio
+        cy.visit('/cardapio.html');
+
+        // 6. Adicionar produtos ao carrinho
         cy.get('.btn-add-cart').first().click();
-        cy.wait(300);
-        cy.get('.cart-count').should('contain', '1');
-
-        // 5. Voltar para "Todos" e adicionar mais produtos
-        cy.contains('.filter-btn', 'Todos').click();
         cy.wait(300);
         cy.get('.btn-add-cart').eq(1).click();
         cy.wait(300);
         cy.get('.cart-count').should('contain', '2');
 
-        // 6. Ir para o carrinho
+        // 7. Ir para o carrinho
         cy.visit('/carrinho.html');
         cy.get('.cart-item').should('have.length', 2);
 
-        // 7. Aumentar quantidade de um produto
-        cy.get('.cart-item').first().find('.btn-increase').click();
-        cy.wait(500);
-
-        // 8. Aplicar cupom de desconto
+        // 8. Aplicar cupom
         cy.fixture('testData').then((data) => {
             cy.get('#cupom-input').type(data.cupons.valido);
             cy.get('#aplicar-cupom').click();
             cy.wait(500);
         });
 
-        // 9. Prosseguir para checkout
+        // 9. Finalizar pedido
         cy.contains('Finalizar').click();
-        cy.url().should('include', '/checkout.html');
+        cy.url().should('include', 'checkout.html');
 
-        // 10. Preencher dados pessoais
-        cy.fixture('testData').then((data) => {
-            cy.get('#nome').type(data.usuario.nome);
-            cy.get('#email').type(data.usuario.email);
-            cy.get('#telefone').type(data.usuario.telefone);
-        });
+        // 10. Dados já devem estar preenchidos (usuário logado)
+        cy.get('#nome').should('have.value', `${newUser.firstName} ${newUser.lastName}`);
 
-        // 11. Selecionar retirada
+        // 11. Selecionar retirada e pagamento
         cy.get('#tipo-entrega-retirada').check();
-        cy.wait(300);
-
-        // 12. Selecionar método de pagamento
         cy.get('input[value="pix"]').check();
-        cy.wait(300);
 
-        // 13. Finalizar pedido
+        // 12. Confirmar pedido
         cy.contains('button', /finalizar|confirmar/i).click();
         cy.wait(1000);
 
-        // 14. Verificar sucesso
+        // 13. Verificar sucesso
         cy.get('body').should('satisfy', ($body) => {
             return $body.text().includes('sucesso') ||
                 $body.text().includes('confirmado') ||
@@ -76,38 +79,131 @@ describe('Fluxo Completo E2E - Jornada do Usuário', () => {
         });
     });
 
-    it('CENÁRIO: Compra com entrega e dinheiro', () => {
-        // Adicionar produtos
+    it('CENÁRIO: Usuário logado compra com entrega', () => {
+        // 1. Fazer login
+        cy.login('joao@email.com', '123456');
+
+        // 2. Adicionar produtos
         cy.visit('/cardapio.html');
         cy.get('.btn-add-cart').first().click();
         cy.wait(300);
         cy.get('.btn-add-cart').eq(2).click();
         cy.wait(300);
 
-        // Ir direto para checkout
+        // 3. Ir direto para checkout
         cy.visit('/checkout.html');
 
-        // Preencher formulário completo com entrega
+        // 4. Verificar que nome e email estão preenchidos
+        cy.get('#nome').should('not.have.value', '');
+        cy.get('#email').should('have.value', 'joao@email.com');
+
+        // 5. Preencher endereço de entrega
         cy.fixture('testData').then((data) => {
-            cy.fillCheckoutForm({
-                nome: data.usuario.nome,
-                email: data.usuario.email,
-                telefone: data.usuario.telefone,
-                tipoEntrega: 'entrega',
-                endereco: data.enderecoEntrega,
-                metodoPagamento: 'dinheiro',
-                troco: '100.00'
-            });
+            cy.get('#tipo-entrega-entrega').check();
+            cy.get('#rua').type(data.enderecoEntrega.rua);
+            cy.get('#numero').type(data.enderecoEntrega.numero);
+            cy.get('#bairro').type(data.enderecoEntrega.bairro);
+            cy.get('#cidade').type(data.enderecoEntrega.cidade);
+            cy.get('#estado').select(data.enderecoEntrega.estado);
+            cy.get('#cep').type(data.enderecoEntrega.cep);
         });
 
-        // Finalizar
+        // 6. Selecionar pagamento
+        cy.get('input[value="dinheiro"]').check();
+        cy.get('#troco').type('100.00');
+
+        // 7. Finalizar
         cy.contains('button', /finalizar|confirmar/i).click();
         cy.wait(1000);
 
-        // Verificar sucesso
+        // 8. Verificar sucesso
         cy.get('body').should('satisfy', ($body) => {
             return $body.text().includes('sucesso') || $body.text().includes('confirmado');
         });
+    });
+
+    it('CENÁRIO: Usuário sem login tenta acessar perfil', () => {
+        // Tentar acessar perfil
+        cy.visit('/perfil.html');
+
+        // Deve mostrar mensagem ou redirecionar
+        cy.url().should('match', /login\.html|perfil\.html/);
+    });
+    it('CENÁRIO: Usuário sem login tenta acessar perfil', () => {
+        // Tentar acessar perfil
+        cy.visit('/perfil.html');
+
+        // Deve mostrar mensagem ou redirecionar
+        cy.url().should('match', /login\.html|perfil\.html/);
+    });
+
+    it('CENÁRIO: Compra anônima (sem cadastro)', () => {
+        // 1. Adicionar produtos
+        cy.visit('/cardapio.html');
+        cy.get('.btn-add-cart').first().click();
+        cy.wait(300);
+        cy.get('.btn-add-cart').eq(1).click();
+        cy.wait(300);
+
+        // 2. Ir para checkout
+        cy.visit('/checkout.html');
+
+        // 3. Preencher dados manualmente
+        cy.fixture('testData').then((data) => {
+            cy.get('#nome').type(data.usuario.nome);
+            cy.get('#email').type(data.usuario.email);
+            cy.get('#telefone').type(data.usuario.telefone);
+        });
+
+        // 4. Selecionar retirada
+        cy.get('#tipo-entrega-retirada').check();
+        cy.get('input[value="pix"]').check();
+
+        // 5. Finalizar
+        cy.contains('button', /finalizar|confirmar/i).click();
+        cy.wait(1000);
+
+        // 6. Verificar sucesso
+        cy.get('body').should('satisfy', ($body) => {
+            return $body.text().includes('sucesso') || $body.text().includes('confirmado');
+        });
+    });
+
+    it('CENÁRIO: Fluxo de logout', () => {
+        // 1. Fazer login
+        cy.login('joao@email.com', '123456');
+
+        // 2. Verificar que está logado
+        cy.visit('/index.html');
+        cy.assertLoggedIn();
+
+        // 3. Fazer logout
+        cy.logout();
+
+        // 4. Verificar que não está mais logado
+        cy.assertLoggedOut();
+
+        // 5. Verificar UI atualizada
+        cy.contains('a', 'Login').should('be.visible');
+    });
+
+    it('CENÁRIO: Sessão persistente com "lembrar de mim"', () => {
+        // 1. Login com remember me
+        cy.login('joao@email.com', '123456', true);
+
+        // 2. Navegar entre páginas
+        cy.visit('/cardapio.html');
+        cy.assertLoggedIn();
+
+        cy.visit('/carrinho.html');
+        cy.assertLoggedIn();
+
+        cy.visit('/index.html');
+        cy.assertLoggedIn();
+
+        // 3. Recarregar página
+        cy.reload();
+        cy.assertLoggedIn();
     });
 
     it('CENÁRIO: Navegação completa sem comprar', () => {
@@ -206,6 +302,23 @@ describe('Fluxo Completo E2E - Jornada do Usuário', () => {
         });
     });
 
+    it('CENÁRIO: Admin faz login e acessa painel', () => {
+        // 1. Login como admin
+        cy.login('admin@sweetcupcakes.com', 'admin123');
+
+        // 2. Verificar que é admin
+        cy.window().then((win) => {
+            const userStr = win.sessionStorage.getItem('sweetcupcakes_user') ||
+                win.localStorage.getItem('sweetcupcakes_user');
+            const user = JSON.parse(userStr);
+            expect(user.isAdmin).to.be.true;
+        });
+
+        // 3. Navegar pelo site
+        cy.visit('/index.html');
+        cy.assertLoggedIn();
+    });
+
     it('CENÁRIO: Responsividade - Mobile', () => {
         cy.viewport(375, 667);
 
@@ -261,4 +374,25 @@ describe('Fluxo Completo E2E - Jornada do Usuário', () => {
         cy.visit('/carrinho.html');
         cy.get('.cart-item').should('have.length.at.least', 1);
     });
+
+    it('CENÁRIO: Carrinho persistente após login', () => {
+        // 1. Adicionar produtos sem login
+        cy.visit('/cardapio.html');
+        cy.get('.btn-add-cart').first().click();
+        cy.wait(300);
+        cy.get('.btn-add-cart').eq(1).click();
+        cy.wait(300);
+
+        // 2. Verificar carrinho
+        cy.visit('/carrinho.html');
+        cy.get('.cart-item').should('have.length', 2);
+
+        // 3. Fazer login
+        cy.login('joao@email.com', '123456');
+
+        // 4. Carrinho deve ser mantido
+        cy.visit('/carrinho.html');
+        cy.get('.cart-item').should('have.length', 2);
+    });
 });
+

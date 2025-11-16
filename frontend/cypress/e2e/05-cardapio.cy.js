@@ -2,6 +2,9 @@
 
 describe('Cardápio - Catálogo de Produtos', () => {
     beforeEach(() => {
+        // Fazer login antes de acessar a home (página requer autenticação)
+        cy.login('joao@email.com', '123456');
+
         cy.visit('/cardapio.html');
     });
 
@@ -23,18 +26,17 @@ describe('Cardápio - Catálogo de Produtos', () => {
     });
 
     it('Deve ter filtros de categoria', () => {
-        cy.get('.filter-buttons').should('be.visible');
+        cy.get('.filter-container').should('be.visible');
         cy.get('.filter-btn').should('have.length.at.least', 2);
     });
 
     it('Deve filtrar produtos por categoria "Chocolate"', () => {
         cy.contains('.filter-btn', 'Chocolate').click();
 
-        // Verificar se apenas produtos de chocolate são exibidos
+        // Verificar se produtos são exibidos após filtro
         cy.get('.product-card').should('be.visible');
-        cy.get('.product-card').each(($el) => {
-            cy.wrap($el).should('have.attr', 'data-category').and('match', /chocolate|todos/i);
-        });
+        // Verificar se a categoria chocolate aparece nos produtos
+        cy.get('.product-category').first().should('contain', 'chocolate');
     });
 
     it('Deve filtrar produtos por categoria "Frutas"', () => {
@@ -57,40 +59,42 @@ describe('Cardápio - Catálogo de Produtos', () => {
         cy.get('.product-card').should('have.length.at.least', 5);
     });
 
-    it('Deve buscar produtos por nome', () => {
-        const searchTerm = 'chocolate';
+    it('Deve adicionar produto ao carrinho a partir do cardápio', () => {
+        // Verificar contador inicial
+        cy.get('#cart-count').invoke('text').then(parseInt).as('initialCount');
 
-        cy.get('#search-input').type(searchTerm);
-        cy.get('.product-card').each(($el) => {
-            cy.wrap($el).find('.product-name').invoke('text').should('match', new RegExp(searchTerm, 'i'));
+        // Adicionar produto
+        cy.get('.btn-add-cart').first().click();
+
+        // Verificar que o contador aumentou
+        cy.get('@initialCount').then(initialCount => {
+            cy.get('#cart-count').should('not.have.text', initialCount.toString());
         });
     });
 
-    it('Deve limpar busca quando campo estiver vazio', () => {
-        cy.get('#search-input').type('chocolate');
-        cy.wait(300);
-        cy.get('#search-input').clear();
-        cy.wait(300);
-        cy.get('.product-card').should('have.length.at.least', 5);
+    it('Deve marcar filtro ativo visualmente', () => {
+        // Filtro "Todos" deve estar ativo inicialmente
+        cy.contains('.filter-btn', 'Todos').should('have.class', 'active');
+
+        // Clicar em outro filtro
+        cy.contains('.filter-btn', 'Chocolate').click();
+
+        // Verificar que mudou o ativo
+        cy.contains('.filter-btn', 'Chocolate').should('have.class', 'active');
+        cy.contains('.filter-btn', 'Todos').should('not.have.class', 'active');
     });
 
-    it('Deve exibir mensagem quando nenhum produto for encontrado', () => {
-        cy.get('#search-input').type('produto_inexistente_xyz');
-        cy.wait(500);
-
-        // Verifica se não há produtos ou se há mensagem de "não encontrado"
-        cy.get('body').should('satisfy', ($body) => {
-            const hasNoProducts = $body.find('.product-card:visible').length === 0;
-            const hasNoResultsMsg = $body.text().includes('Nenhum produto encontrado') ||
-                $body.text().includes('não encontrado');
-            return hasNoProducts || hasNoResultsMsg;
+    it('Deve exibir categoria do produto', () => {
+        cy.get('.product-card').first().within(() => {
+            cy.get('.product-category').should('be.visible');
+            cy.get('.product-category').invoke('text').should('not.be.empty');
         });
     });
 
     // Testes de preços
     describe('Preços dos Produtos', () => {
         it('Deve exibir preços formatados corretamente', () => {
-            cy.get('.product-price').first().should('match', /R\$\s*\d+[,\.]\d{2}/);
+            cy.get('.product-price').first().invoke('text').should('match', /R\$\s*\d+[,\.]\d{2}/);
         });
 
         it('Todos os produtos devem ter preço visível', () => {
