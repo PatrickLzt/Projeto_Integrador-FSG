@@ -88,16 +88,22 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # Usa DATABASE_URL do Neon/Vercel se disponível, senão SQLite para desenvolvimento
-if os.environ.get('DATABASE_URL'):
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+if DATABASE_URL:
     # Configuração para Neon/Vercel Postgres
     DATABASES = {
         'default': dj_database_url.config(
-            default=os.environ.get('DATABASE_URL'),
+            default=DATABASE_URL,
             conn_max_age=600,
             conn_health_checks=True,
-            ssl_require=True
         )
     }
+    # Adicionar SSL apenas se necessário (Neon/Heroku precisam)
+    if 'neon.tech' in DATABASE_URL or 'herokuapp.com' in DATABASE_URL:
+        DATABASES['default']['OPTIONS'] = {
+            'sslmode': 'require',
+        }
 else:
     # Fallback para SQLite local
     DATABASES = {
