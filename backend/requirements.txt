@@ -1,36 +1,18 @@
-# ===== DEPENDÊNCIAS PRINCIPAIS =====
 Django==4.2.7
 djangorestframework==3.14.0
 django-filter==23.5
 django-cors-headers==4.3.1
 Pillow==10.1.0
-
-# ===== AUTENTICAÇÃO =====
 djangorestframework-simplejwt==5.3.0
-
-# ===== BANCO DE DADOS =====
-psycopg2-binary==2.9.9  # PostgreSQL
-dj-database-url==2.1.0  # Parse DATABASE_URL (Neon/Vercel)
-# mysqlclient==2.2.0    # MySQL (descomente se usar MySQL)
-
-# ===== UTILITÁRIOS =====
+psycopg2-binary==2.9.9
+dj-database-url==2.1.0
 python-decouple==3.8
 python-dotenv==1.0.0
-
-# ===== DESENVOLVIMENTO =====
 autopep8==2.0.4
 flake8==6.1.0
-
-# ===== TESTES =====
 coverage==7.3.2
 faker==20.1.0
-
-# ===== PRODUÇÃO =====
 gunicorn==21.2.0
 whitenoise==6.6.0
-
-# ===== DOCUMENTAÇÃO API =====
 drf-yasg==1.21.7
-
-# ===== OUTRAS DEPENDÊNCIAS =====
 setuptools>=80.9.0
